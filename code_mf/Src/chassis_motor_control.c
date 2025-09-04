@@ -125,7 +125,6 @@ void gimbal_to_chassis_speed_compute()
 //    chassis_vy = gimbal_vx * (float)sin((double)yaw_radian_difference) + gimbal_vy * (float)cos((double)yaw_radian_difference);
     chassis_vx = gimbal_vx * 1.0f - gimbal_vy * 0.0f ;
     chassis_vy = gimbal_vx * 0.0f + gimbal_vy * 1.0f ;
-    // ‘ ‘git
 
 
 
