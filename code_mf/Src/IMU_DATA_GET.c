@@ -28,6 +28,12 @@ void IMU_DATA_GET()
         pitch_angle_from_bmi088 = INS_degree[1] ;
         roll_angle_from_bmi088 = INS_degree[2] ;
 
+        yaw_radian_from_bmi088 = INS_angle[0] ;
+        pitch_radian_from_bmi088 = INS_angle[1] ;
+        roll_radian_from_bmi088 = INS_angle[2] ;
+
+
+
 
         osDelay(1);
     }

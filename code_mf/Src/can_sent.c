@@ -23,7 +23,6 @@ void can_sent()
 {
     while (1)
     {
-//        if( rc_receive_state == RC_OFFLINE | yaw_6020_state == GM6020_DIE | pitch_6020_state == GM6020_DIE)//遥控器离线，全车断电
         if( rc_receive_state == RC_OFFLINE | yaw_6020_state == GM6020_DIE | pitch_6020_state == GM6020_DIE)//遥控器离线，全车断电
         {
             can_cmd_all(0,0,0,0,0,0,0,0,0);
@@ -75,10 +74,10 @@ void can_cmd_all(int16_t chassis_id1 ,       int16_t chassis_id2 ,
                  int16_t friction_wheel_id1, int16_t friction_wheel_id2 ,
                  int16_t shoot_id3 )
 {
-//    CAN2_cmd_pitch(pitch_id2,0,0,0);
-//    CAN2_cmd_friction_wheels(friction_wheel_id1,friction_wheel_id2,shoot_id3,0);
+    CAN2_cmd_pitch(pitch_id2,0,0,0);
+    CAN2_cmd_friction_wheels(friction_wheel_id1,friction_wheel_id2,shoot_id3,0);
     CAN1_cmd_chassis(chassis_id1, chassis_id2, chassis_id3, chassis_id4);
-//    CAN1_cmd_yaw(yaw_id1,0,0,0);
+    CAN1_cmd_yaw(yaw_id1,0,0,0);
 
 }
 

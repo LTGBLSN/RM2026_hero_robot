@@ -12,7 +12,7 @@
 
 
 //IMU
-#define GM6020_TEMP_MAX 50
+#define GM6020_TEMP_MAX 60
 #define GM6020_SAFE 1
 #define GM6020_DIE 0
 

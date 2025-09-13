@@ -59,6 +59,7 @@ osThreadId shoot_con_taskHandle;
 osThreadId refereeHandle;
 osThreadId servoHandle;
 osThreadId imu_dataHandle;
+osThreadId aim_uart_taskHandle;
 
 /* Private function prototypes -----------------------------------------------*/
 /* USER CODE BEGIN FunctionPrototypes */
@@ -67,7 +68,7 @@ osThreadId imu_dataHandle;
 
 void StartDefaultTask(void const * argument);
 void board_LED(void const * argument);
-void uart_sent(void const * argument);
+void uart_sent_debug(void const * argument);
 void get_rc(void const * argument);
 void can_sent(void const * argument);
 void error_detection(void const * argument);
@@ -77,6 +78,7 @@ void shoot_control(void const * argument);
 void refree_task(void const * argument);
 void servo_task(void const * argument);
 void IMU_DATA_GET(void const * argument);
+void aim_uart_sent(void const * argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -132,7 +134,7 @@ void MX_FREERTOS_Init(void) {
   board_LED_taskHandle = osThreadCreate(osThread(board_LED_task), NULL);
 
   /* definition and creation of uart_sent_test */
-  osThreadDef(uart_sent_test, uart_sent, osPriorityIdle, 0, 256);
+  osThreadDef(uart_sent_test, uart_sent_debug, osPriorityIdle, 0, 256);
   uart_sent_testHandle = osThreadCreate(osThread(uart_sent_test), NULL);
 
   /* definition and creation of get_rc_task */
@@ -170,6 +172,10 @@ void MX_FREERTOS_Init(void) {
   /* definition and creation of imu_data */
   osThreadDef(imu_data, IMU_DATA_GET, osPriorityIdle, 0, 128);
   imu_dataHandle = osThreadCreate(osThread(imu_data), NULL);
+
+  /* definition and creation of aim_uart_task */
+  osThreadDef(aim_uart_task, aim_uart_sent, osPriorityIdle, 0, 128);
+  aim_uart_taskHandle = osThreadCreate(osThread(aim_uart_task), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -213,22 +219,22 @@ __weak void board_LED(void const * argument)
   /* USER CODE END board_LED */
 }
 
-/* USER CODE BEGIN Header_uart_sent */
+/* USER CODE BEGIN Header_uart_sent_debug */
 /**
 * @brief Function implementing the uart_sent_test thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_uart_sent */
-__weak void uart_sent(void const * argument)
+/* USER CODE END Header_uart_sent_debug */
+__weak void uart_sent_debug(void const * argument)
 {
-  /* USER CODE BEGIN uart_sent */
+  /* USER CODE BEGIN uart_sent_debug */
   /* Infinite loop */
   for(;;)
   {
     osDelay(1);
   }
-  /* USER CODE END uart_sent */
+  /* USER CODE END uart_sent_debug */
 }
 
 /* USER CODE BEGIN Header_get_rc */
@@ -391,6 +397,24 @@ __weak void IMU_DATA_GET(void const * argument)
     osDelay(1);
   }
   /* USER CODE END IMU_DATA_GET */
+}
+
+/* USER CODE BEGIN Header_aim_uart_sent */
+/**
+* @brief Function implementing the aim_uart_task thread.
+* @param argument: Not used
+* @retval None
+*/
+/* USER CODE END Header_aim_uart_sent */
+__weak void aim_uart_sent(void const * argument)
+{
+  /* USER CODE BEGIN aim_uart_sent */
+  /* Infinite loop */
+  for(;;)
+  {
+    osDelay(1);
+  }
+  /* USER CODE END aim_uart_sent */
 }
 
 /* Private application code --------------------------------------------------*/

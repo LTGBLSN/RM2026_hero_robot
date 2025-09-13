@@ -21,7 +21,6 @@
 #include "jy61p.h"
 #include "pid.h"
 #include "chassis_motor_control.h"
-#include "gimbal_motor_control.h"
 #include <math.h>
 
 pid_type_def chassis_3508_ID1_speed_pid;
@@ -121,10 +120,8 @@ void yaw_ecd_angle_to_radian()
 
 void gimbal_to_chassis_speed_compute()
 {
-//    chassis_vx = gimbal_vx * (float)cos((double)yaw_radian_difference) - gimbal_vy * (float)sin((double)yaw_radian_difference);
-//    chassis_vy = gimbal_vx * (float)sin((double)yaw_radian_difference) + gimbal_vy * (float)cos((double)yaw_radian_difference);
-    chassis_vx = gimbal_vx * 1.0f - gimbal_vy * 0.0f ;
-    chassis_vy = gimbal_vx * 0.0f + gimbal_vy * 1.0f ;
+    chassis_vx = gimbal_vx * (float)cos((double)yaw_radian_difference) - gimbal_vy * (float)sin((double)yaw_radian_difference);
+    chassis_vy = gimbal_vx * (float)sin((double)yaw_radian_difference) + gimbal_vy * (float)cos((double)yaw_radian_difference);
 
 
 
@@ -170,10 +167,9 @@ void chassis_settlement()
             }
             else
             {
-                chassis_vround = (YAW_RC_IN_KP * (float)rc_ch2) ;
-
-//                chassis_vround = CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
-//                chassis_vround = 0 ;
+                CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED = chassis_follow_gimbal_pid_loop(YAW_MID_ECD);//底盘跟随
+                chassis_vround = CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
+//                chassis_vround = 0 ;//在这给底盘跟随做速度闭环
             }
 
         }

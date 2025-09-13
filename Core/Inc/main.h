@@ -36,6 +36,8 @@ extern "C" {
 #include "uart_sent.h"
 #include "bsp_rc.h"
 #include "remote_control.h"
+#include "auto_aim.h"
+#include <stdbool.h>
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
@@ -81,7 +83,7 @@ extern int16_t mouse_press_r ;
 extern int16_t rc_receive_state ;//遥控器状态 0为离线，1为在线
 extern uint32_t rc_receive_time ;//遥控器接收到数据的时间戳
 
-extern uint8_t uart1_receive_data ;//串口当前接收字节
+
 
 extern int16_t yaw_6020_state ;//6020状态 0为错误，1为正常
 extern int16_t pitch_6020_state ;//6020电机状态 0为错误，1为正常
@@ -178,10 +180,20 @@ extern float pitch_angle_from_bmi088 ;
 extern float yaw_angle_from_bmi088 ;
 extern float roll_angle_from_bmi088 ;
 
+extern float pitch_radian_from_bmi088 ;
+extern float yaw_radian_from_bmi088 ;
+extern float roll_radian_from_bmi088 ;
+
+extern bool reset_tracker ;
+
+extern uint8_t tx_buffer[sizeof(auto_aim_tx_packet)];
+
 extern float YAW_IMU_LAST_ECD ;
 extern float YAW_IMU_LAPS ;
 extern float YAW_IMU_ABSCISSA ;
 
+
+extern uint8_t uart1_receive_data ;//串口当前接收字节
 
 /* USER CODE END EC */
 
