@@ -34,10 +34,10 @@ typedef enum
     CAN_3508_M3_ID = 0x203,
     CAN_3508_M4_ID = 0x204,
 
-    CAN_YAW_MOTOR_ID = 0x205,
-    CAN_PIT_MOTOR_ID = 0x206,
+    CAN_YAW_MOTOR_ID = 0x206,
+    CAN_PIT_MOTOR_ID = 0x205,
     CAN_TRIGGER_MOTOR_ID = 0x207,
-    CAN_GIMBAL_ALL_ID = 0x1FF,
+    CAN_GIMBAL_ALL_ID_1_4 = 0x1FF,
 
 } can_msg_id_e;
 
@@ -50,16 +50,17 @@ typedef struct
     uint8_t temperate;
     int16_t last_ecd;
 } motor_measure_t;
+
 extern motor_measure_t motor_can1_data[7];
 extern motor_measure_t motor_can2_data[7];
 
-void CAN2_cmd_pitch(int16_t pitch, int16_t none0, int16_t none1, int16_t none2);
 
-extern void CAN2_cmd_friction_wheels(int16_t friction_wheel0, int16_t friction_wheel1, int16_t none0, int16_t none1);
+
 
 extern void CAN1_cmd_chassis(int16_t motor1, int16_t motor2, int16_t motor3, int16_t motor4);
+extern void CAN1_cmd_yaw_pitch_toggle(int16_t pitch, int16_t yaw, int16_t motor3, int16_t motor4);
 
-extern void CAN1_cmd_yaw(int16_t yaw, int16_t motor2, int16_t motor3, int16_t motor4);
-
+extern void CAN2_cmd_friction_wheels_1234(int16_t friction_wheel1, int16_t friction_wheel2, int16_t friction_wheel3, int16_t friction_wheel4);
+extern void CAN2_cmd_friction_wheels_5678(int16_t friction_wheel5, int16_t friction_wheel6, int16_t motor7, int16_t none);
 
 #endif

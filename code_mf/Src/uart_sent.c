@@ -27,7 +27,7 @@ void uart_sent_debug()
 {
     while (1)
     {
-        usart6_printf("%f \r\n",INS_angle[2]);
+        usart6_printf("%d,%f,%d \r\n",motor_can1_data[4].speed_rpm,PITCH_3510_ID5_GIVEN_SPEED,PITCH_3510_ID5_GIVEN_CURRENT);
 
 
 

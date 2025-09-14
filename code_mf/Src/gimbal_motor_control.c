@@ -12,13 +12,16 @@
 pid_type_def yaw_6020_ID1_speed_pid;
 pid_type_def yaw_6020_ID1_angle_pid;
 
-pid_type_def pitch_6020_ID2_speed_pid;
+pid_type_def pitch_3510_ID5_speed_pid;
 pid_type_def pitch_6020_ID2_angle_pid;
 
 
 pid_type_def friction_wheel_3510_ID1_speed_pid;
 pid_type_def friction_wheel_3510_ID2_speed_pid;
-
+pid_type_def friction_wheel_3510_ID3_speed_pid;
+pid_type_def friction_wheel_3510_ID4_speed_pid;
+pid_type_def friction_wheel_3510_ID5_speed_pid;
+pid_type_def friction_wheel_3510_ID6_speed_pid;
 
 
 pid_type_def shoot_2006_ID3_speed_pid;
@@ -65,28 +68,31 @@ void motor_gimbal_angle_compute()
 {
      if(mouse_vy == 0 & mouse_vx == 0)
      {
-         if((PITCH_RC_IN_KP * (float )rc_ch3) < 0 )
+
+         if((-0.0015f) * (float)rc_ch3 < 0 )
          {
-             if(PITCH_6020_ID2_GIVEN_ANGLE < -23.0f )
+             if(pitch_angle_from_bmi088 < PITCH_MAX )
              {
-                 PITCH_6020_ID2_GIVEN_ANGLE = -23.0f ;
+                 PITCH_3510_ID5_GIVEN_SPEED = 0 ;
              }
              else
              {
-                 PITCH_6020_ID2_GIVEN_ANGLE = PITCH_6020_ID2_GIVEN_ANGLE + PITCH_RC_IN_KP * (float )rc_ch3  ;
+                 PITCH_3510_ID5_GIVEN_SPEED = (-5.0f) * (float)rc_ch3 ;
              }
          }
          else
          {
-             if(PITCH_6020_ID2_GIVEN_ANGLE > 25.0f )
+             if(pitch_angle_from_bmi088 > PITCH_MIN )
              {
-                 PITCH_6020_ID2_GIVEN_ANGLE = 25.0f ;
+                 PITCH_3510_ID5_GIVEN_SPEED = 0 ;
              }
              else
              {
-                 PITCH_6020_ID2_GIVEN_ANGLE = PITCH_6020_ID2_GIVEN_ANGLE + PITCH_RC_IN_KP * (float )rc_ch3  ;
+                 PITCH_3510_ID5_GIVEN_SPEED = (-5.0f) * (float)rc_ch3 ;
              }
          }
+
+
 
 
          YAW_6020_ID1_GIVEN_ANGLE = YAW_6020_ID1_GIVEN_ANGLE + (YAW_RC_IN_KP * (float)rc_ch2) ;
@@ -127,12 +133,13 @@ void yaw_imu_getAbscissa()
 
 void motor_gimbal_pid_compute()
 {
-    YAW_6020_ID1_GIVEN_SPEED = yaw_angle_pid_loop(YAW_6020_ID1_GIVEN_ANGLE) ;
+    YAW_6020_ID1_GIVEN_SPEED = yaw_angle_pid_loop(YAW_6020_ID1_GIVEN_ANGLE) ;//角度环
     YAW_6020_ID1_GIVEN_CURRENT = (int16_t)yaw_speed_pid_loop(YAW_6020_ID1_GIVEN_SPEED);//速度环
 
 
-    PITCH_6020_ID2_GIVEN_SPEED = pitch_angle_from_bmi088_pid_loop(PITCH_6020_ID2_GIVEN_ANGLE);//角度环
-    PITCH_6020_ID2_GIVEN_CURRENT = (int16_t) (- pitch_speed_from_bmi088_pid_loop(PITCH_6020_ID2_GIVEN_SPEED)); //速度环
+//    PITCH_3510_ID5_GIVEN_SPEED = pitch_angle_from_bmi088_pid_loop(PITCH_3510_ID5_GIVEN_ANGLE);//角度环
+//    PITCH_3510_ID5_GIVEN_SPEED = 0.0015f * (float )rc_ch3 ;
+    PITCH_3510_ID5_GIVEN_CURRENT = (int16_t) (pitch_speed_from_3510_pid_loop(PITCH_3510_ID5_GIVEN_SPEED)); //速度环
 
 }
 
@@ -144,18 +151,30 @@ void friction_wheel_speed_control()
     {
         FRICTION_WHEEL_3510_ID1_GIVEN_SPEED = 0 ;
         FRICTION_WHEEL_3510_ID2_GIVEN_SPEED = 0 ;
+        FRICTION_WHEEL_3510_ID3_GIVEN_SPEED = 0 ;
+        FRICTION_WHEEL_3510_ID4_GIVEN_SPEED = 0 ;
+        FRICTION_WHEEL_3510_ID5_GIVEN_SPEED = 0 ;
+        FRICTION_WHEEL_3510_ID6_GIVEN_SPEED = 0 ;
     } else
     {
-        FRICTION_WHEEL_3510_ID1_GIVEN_SPEED = FRICTION_WHEEL_SHOOT_SPEED ;
-        FRICTION_WHEEL_3510_ID2_GIVEN_SPEED = -FRICTION_WHEEL_SHOOT_SPEED ;
+        FRICTION_WHEEL_3510_ID1_GIVEN_SPEED = -FRICTION_WHEEL_FRONT_SHOOT_SPEED ;
+        FRICTION_WHEEL_3510_ID2_GIVEN_SPEED = -FRICTION_WHEEL_BEHIND_SHOOT_SPEED ;
+        FRICTION_WHEEL_3510_ID3_GIVEN_SPEED = -FRICTION_WHEEL_FRONT_SHOOT_SPEED ;
+        FRICTION_WHEEL_3510_ID4_GIVEN_SPEED = -FRICTION_WHEEL_BEHIND_SHOOT_SPEED ;
+        FRICTION_WHEEL_3510_ID5_GIVEN_SPEED = -FRICTION_WHEEL_FRONT_SHOOT_SPEED ;
+        FRICTION_WHEEL_3510_ID6_GIVEN_SPEED = -FRICTION_WHEEL_BEHIND_SHOOT_SPEED ;
 
     }
 
 }
 void friction_wheel_pid_control()
 {
-    FRICTION_WHEEL_3510_ID1_GIVEN_CURRENT = friction_wheel_3510_id1_speed_pid_loop(FRICTION_WHEEL_3510_ID1_GIVEN_SPEED);
+     FRICTION_WHEEL_3510_ID1_GIVEN_CURRENT = friction_wheel_3510_id1_speed_pid_loop(FRICTION_WHEEL_3510_ID1_GIVEN_SPEED);
      FRICTION_WHEEL_3510_ID2_GIVEN_CURRENT = friction_wheel_3510_id2_speed_pid_loop(FRICTION_WHEEL_3510_ID2_GIVEN_SPEED);
+     FRICTION_WHEEL_3510_ID3_GIVEN_CURRENT = friction_wheel_3510_id3_speed_pid_loop(FRICTION_WHEEL_3510_ID3_GIVEN_SPEED);
+     FRICTION_WHEEL_3510_ID4_GIVEN_CURRENT = friction_wheel_3510_id4_speed_pid_loop(FRICTION_WHEEL_3510_ID4_GIVEN_SPEED);
+     FRICTION_WHEEL_3510_ID5_GIVEN_CURRENT = friction_wheel_3510_id5_speed_pid_loop(FRICTION_WHEEL_3510_ID5_GIVEN_SPEED);
+     FRICTION_WHEEL_3510_ID6_GIVEN_CURRENT = friction_wheel_3510_id6_speed_pid_loop(FRICTION_WHEEL_3510_ID6_GIVEN_SPEED);
 }
 
 
@@ -222,25 +241,25 @@ float yaw_speed_pid_loop(float YAW_6020_ID1_speed_set_loop)
 
 void pitch_speed_from_bmi88_pid_init(void)
 {
-    static fp32 pitch_6020_id2_speed_kpkikd[3] = {PITCH_6020_ID2_SPEED_PID_KP,PITCH_6020_ID2_SPEED_PID_KI,PITCH_6020_ID2_SPEED_PID_KD};
-    PID_init(&pitch_6020_ID2_speed_pid,PID_POSITION,pitch_6020_id2_speed_kpkikd,PITCH_6020_ID2_SPEED_PID_OUT_MAX,PITCH_6020_ID2_SPEED_PID_KI_MAX);
+    static fp32 pitch_6020_id2_speed_kpkikd[3] = {PITCH_3510_ID5_SPEED_PID_KP, PITCH_3510_ID5_SPEED_PID_KI, PITCH_3510_ID5_SPEED_PID_KD};
+    PID_init(&pitch_3510_ID5_speed_pid, PID_POSITION, pitch_6020_id2_speed_kpkikd, PITCH_3510_ID5_SPEED_PID_OUT_MAX, PITCH_3510_ID5_SPEED_PID_KI_MAX);
 
 }
 
-float pitch_speed_from_bmi088_pid_loop(float PITCH_6020_ID2_speed_set_loop)
+float pitch_speed_from_3510_pid_loop(float PITCH_3510_ID5_speed_set_loop)
 {
-    PID_calc(&pitch_6020_ID2_speed_pid, pitch_speed_from_bmi088 , PITCH_6020_ID2_speed_set_loop);
-    int16_t pitch_6020_ID2_given_current_loop = (int16_t)(pitch_6020_ID2_speed_pid.out);
+    PID_calc(&pitch_3510_ID5_speed_pid, motor_can1_data[4].speed_rpm , PITCH_3510_ID5_speed_set_loop);
+    int16_t pitch_3510_ID5_given_current_loop = (int16_t)(pitch_3510_ID5_speed_pid.out);
 
-    return pitch_6020_ID2_given_current_loop ;
+    return pitch_3510_ID5_given_current_loop ;
 
 }
 
 
 void pitch_angle_pid_init(void)
 {
-    static fp32 pitch_6020_id2_angle_kpkikd[3] = {PITCH_6020_ID2_ANGLE_PID_KP,PITCH_6020_ID2_ANGLE_PID_KI,PITCH_6020_ID2_ANGLE_PID_KD};
-    PID_init(&pitch_6020_ID2_angle_pid,PID_POSITION,pitch_6020_id2_angle_kpkikd,PITCH_6020_ID2_ANGLE_PID_OUT_MAX,PITCH_6020_ID2_ANGLE_PID_KI_MAX);
+    static fp32 pitch_6020_id2_angle_kpkikd[3] = {PITCH_3510_ID5_ANGLE_PID_KP, PITCH_3510_ID5_ANGLE_PID_KI, PITCH_3510_ID5_ANGLE_PID_KD};
+    PID_init(&pitch_6020_ID2_angle_pid, PID_POSITION, pitch_6020_id2_angle_kpkikd, PITCH_3510_ID5_ANGLE_PID_OUT_MAX, PITCH_3510_ID5_ANGLE_PID_KI_MAX);
 
 }
 
@@ -292,6 +311,72 @@ int16_t friction_wheel_3510_id2_speed_pid_loop(int16_t friction_wheel_3510_id2_s
 
 }
 
+
+void friction_wheel_3510_id3_speed_pid_init(void)
+{
+    static fp32 friction_wheel_3510_id3_speed_kpkikd[3] = {FRICTION_WHEEL_3510_ID3_SPEED_PID_KP,FRICTION_WHEEL_3510_ID3_SPEED_PID_KI,FRICTION_WHEEL_3510_ID3_SPEED_PID_KD};
+    PID_init(&friction_wheel_3510_ID3_speed_pid,PID_POSITION,friction_wheel_3510_id3_speed_kpkikd,FRICTION_WHEEL_3510_ID3_SPEED_PID_OUT_MAX,FRICTION_WHEEL_3510_ID3_SPEED_PID_KI_MAX);
+
+}
+
+int16_t friction_wheel_3510_id3_speed_pid_loop(int16_t friction_wheel_3510_id3_speed_set_loop)
+{
+    PID_calc(&friction_wheel_3510_ID3_speed_pid, motor_can2_data[2].speed_rpm , friction_wheel_3510_id3_speed_set_loop);
+    int16_t friction_wheel_3510_id3_given_current_loop = (int16_t)(friction_wheel_3510_ID3_speed_pid.out);
+
+    return friction_wheel_3510_id3_given_current_loop ;
+
+}
+
+
+void friction_wheel_3510_id4_speed_pid_init(void)
+{
+    static fp32 friction_wheel_3510_id4_speed_kpkikd[3] = {FRICTION_WHEEL_3510_ID4_SPEED_PID_KP,FRICTION_WHEEL_3510_ID4_SPEED_PID_KI,FRICTION_WHEEL_3510_ID4_SPEED_PID_KD};
+    PID_init(&friction_wheel_3510_ID4_speed_pid,PID_POSITION,friction_wheel_3510_id4_speed_kpkikd,FRICTION_WHEEL_3510_ID4_SPEED_PID_OUT_MAX,FRICTION_WHEEL_3510_ID4_SPEED_PID_KI_MAX);
+
+}
+
+int16_t friction_wheel_3510_id4_speed_pid_loop(int16_t friction_wheel_3510_id4_speed_set_loop)
+{
+    PID_calc(&friction_wheel_3510_ID4_speed_pid, motor_can2_data[3].speed_rpm , friction_wheel_3510_id4_speed_set_loop);
+    int16_t friction_wheel_3510_id4_given_current_loop = (int16_t)(friction_wheel_3510_ID4_speed_pid.out);
+
+    return friction_wheel_3510_id4_given_current_loop ;
+
+}
+
+void friction_wheel_3510_id5_speed_pid_init(void)
+{
+    static fp32 friction_wheel_3510_id5_speed_kpkikd[3] = {FRICTION_WHEEL_3510_ID5_SPEED_PID_KP,FRICTION_WHEEL_3510_ID5_SPEED_PID_KI,FRICTION_WHEEL_3510_ID5_SPEED_PID_KD};
+    PID_init(&friction_wheel_3510_ID5_speed_pid,PID_POSITION,friction_wheel_3510_id5_speed_kpkikd,FRICTION_WHEEL_3510_ID5_SPEED_PID_OUT_MAX,FRICTION_WHEEL_3510_ID5_SPEED_PID_KI_MAX);
+
+}
+
+int16_t friction_wheel_3510_id5_speed_pid_loop(int16_t friction_wheel_3510_id5_speed_set_loop)
+{
+    PID_calc(&friction_wheel_3510_ID5_speed_pid, motor_can2_data[4].speed_rpm , friction_wheel_3510_id5_speed_set_loop);
+    int16_t friction_wheel_3510_id5_given_current_loop = (int16_t)(friction_wheel_3510_ID5_speed_pid.out);
+
+    return friction_wheel_3510_id5_given_current_loop ;
+
+}
+
+
+void friction_wheel_3510_id6_speed_pid_init(void)
+{
+    static fp32 friction_wheel_3510_id6_speed_kpkikd[3] = {FRICTION_WHEEL_3510_ID6_SPEED_PID_KP,FRICTION_WHEEL_3510_ID6_SPEED_PID_KI,FRICTION_WHEEL_3510_ID6_SPEED_PID_KD};
+    PID_init(&friction_wheel_3510_ID6_speed_pid,PID_POSITION,friction_wheel_3510_id6_speed_kpkikd,FRICTION_WHEEL_3510_ID6_SPEED_PID_OUT_MAX,FRICTION_WHEEL_3510_ID6_SPEED_PID_KI_MAX);
+
+}
+
+int16_t friction_wheel_3510_id6_speed_pid_loop(int16_t friction_wheel_3510_id6_speed_set_loop)
+{
+    PID_calc(&friction_wheel_3510_ID6_speed_pid, motor_can2_data[5].speed_rpm , friction_wheel_3510_id6_speed_set_loop);
+    int16_t friction_wheel_3510_id6_given_current_loop = (int16_t)(friction_wheel_3510_ID6_speed_pid.out);
+
+    return friction_wheel_3510_id6_given_current_loop ;
+
+}
 
 
 

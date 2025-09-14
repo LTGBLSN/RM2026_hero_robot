@@ -46,17 +46,17 @@
 
 
 
-#define PITCH_6020_ID2_SPEED_PID_KP        10000.0f
-#define PITCH_6020_ID2_SPEED_PID_KI        20.0f
-#define PITCH_6020_ID2_SPEED_PID_KD        0.0f
-#define PITCH_6020_ID2_SPEED_PID_OUT_MAX   30000.0f
-#define PITCH_6020_ID2_SPEED_PID_KI_MAX    15000.0f
+#define PITCH_3510_ID5_SPEED_PID_KP        15.0f
+#define PITCH_3510_ID5_SPEED_PID_KI        0.0f
+#define PITCH_3510_ID5_SPEED_PID_KD        0.0f
+#define PITCH_3510_ID5_SPEED_PID_OUT_MAX   16384.0f//16384
+#define PITCH_3510_ID5_SPEED_PID_KI_MAX    0.0f
 
-#define PITCH_6020_ID2_ANGLE_PID_KP        0.4f
-#define PITCH_6020_ID2_ANGLE_PID_KI        0.0f
-#define PITCH_6020_ID2_ANGLE_PID_KD        0.0f
-#define PITCH_6020_ID2_ANGLE_PID_OUT_MAX   5.0f
-#define PITCH_6020_ID2_ANGLE_PID_KI_MAX    0.0f
+#define PITCH_3510_ID5_ANGLE_PID_KP        0.1f
+#define PITCH_3510_ID5_ANGLE_PID_KI        0.0f
+#define PITCH_3510_ID5_ANGLE_PID_KD        0.0f
+#define PITCH_3510_ID5_ANGLE_PID_OUT_MAX   1.0f
+#define PITCH_3510_ID5_ANGLE_PID_KI_MAX    0.0f
 
 
 
@@ -74,26 +74,47 @@
 #define FRICTION_WHEEL_3510_ID2_SPEED_PID_OUT_MAX   16000.0f
 #define FRICTION_WHEEL_3510_ID2_SPEED_PID_KI_MAX    5000.0f
 
+#define FRICTION_WHEEL_3510_ID3_SPEED_PID_KP        5.0f
+#define FRICTION_WHEEL_3510_ID3_SPEED_PID_KI        0.1f
+#define FRICTION_WHEEL_3510_ID3_SPEED_PID_KD        0.0f
+#define FRICTION_WHEEL_3510_ID3_SPEED_PID_OUT_MAX   16000.0f
+#define FRICTION_WHEEL_3510_ID3_SPEED_PID_KI_MAX    5000.0f
 
-#define FRICTION_WHEEL_SHOOT_SPEED 6500
+#define FRICTION_WHEEL_3510_ID4_SPEED_PID_KP        5.0f
+#define FRICTION_WHEEL_3510_ID4_SPEED_PID_KI        0.1f
+#define FRICTION_WHEEL_3510_ID4_SPEED_PID_KD        0.0f
+#define FRICTION_WHEEL_3510_ID4_SPEED_PID_OUT_MAX   16000.0f
+#define FRICTION_WHEEL_3510_ID4_SPEED_PID_KI_MAX    5000.0f
+
+#define FRICTION_WHEEL_3510_ID5_SPEED_PID_KP        5.0f
+#define FRICTION_WHEEL_3510_ID5_SPEED_PID_KI        0.1f
+#define FRICTION_WHEEL_3510_ID5_SPEED_PID_KD        0.0f
+#define FRICTION_WHEEL_3510_ID5_SPEED_PID_OUT_MAX   16000.0f
+#define FRICTION_WHEEL_3510_ID5_SPEED_PID_KI_MAX    5000.0f
+
+#define FRICTION_WHEEL_3510_ID6_SPEED_PID_KP        5.0f
+#define FRICTION_WHEEL_3510_ID6_SPEED_PID_KI        0.1f
+#define FRICTION_WHEEL_3510_ID6_SPEED_PID_KD        0.0f
+#define FRICTION_WHEEL_3510_ID6_SPEED_PID_OUT_MAX   16000.0f
+#define FRICTION_WHEEL_3510_ID6_SPEED_PID_KI_MAX    5000.0f
+
+
+#define FRICTION_WHEEL_FRONT_SHOOT_SPEED 3500
+#define FRICTION_WHEEL_BEHIND_SHOOT_SPEED 3500
 
 #define GIMBAL_PID_COMPUTE_FREQUENCY 1000  // Hz
 
-#define PITCH_OFF_FRICTION_STOP_SPEED_COMPENSATE 0.0
-#define PITCH_ON_FRICTION_STOP_SPEED_COMPENSATE  0.0
-
-#define PITCH_RC_IN_KP (-0.0005f)
+#define PITCH_RC_IN_KP (-0.0001f)
 #define YAW_RC_IN_KP (-0.001f)
 
-#define MOUSE_VX_SPEED_SCALING_FACTOR 2.0f
-#define MOUSE_VY_SPEED_SCALING_FACTOR 0.1f
-
+#define PITCH_MIN (0.0f) //4.0
+#define PITCH_MAX (-30.00f) //36.0
 
 
 extern pid_type_def yaw_6020_ID1_speed_pid;
 
 
-extern pid_type_def pitch_6020_ID2_speed_pid;
+extern pid_type_def pitch_3510_ID5_speed_pid;
 extern pid_type_def pitch_6020_ID2_angle_pid;
 
 
@@ -101,6 +122,10 @@ extern pid_type_def pitch_6020_ID2_angle_pid;
 
 extern pid_type_def friction_wheel_3510_ID1_speed_pid;
 extern pid_type_def friction_wheel_3510_ID2_speed_pid;
+extern pid_type_def friction_wheel_3510_ID3_speed_pid;
+extern pid_type_def friction_wheel_3510_ID4_speed_pid;
+extern pid_type_def friction_wheel_3510_ID5_speed_pid;
+extern pid_type_def friction_wheel_3510_ID6_speed_pid;
 
 
 
@@ -130,7 +155,7 @@ void yaw_angle_pid_init(void);
 float yaw_angle_pid_loop(float YAW_6020_ID1_angle_set_loop);
 
 void pitch_speed_from_bmi88_pid_init(void);
-float pitch_speed_from_bmi088_pid_loop(float PITCH_6020_ID2_speed_set_loop);
+float pitch_speed_from_3510_pid_loop(float PITCH_3510_ID5_speed_set_loop);
 void pitch_angle_pid_init(void);
 float pitch_angle_from_bmi088_pid_loop(float PITCH_6020_ID2_angle_set_loop);//ÔÝ²»ÓÃ£¬pitchËÙ¿Ø
 
@@ -142,6 +167,17 @@ int16_t friction_wheel_3510_id1_speed_pid_loop(int16_t friction_wheel_3510_id1_s
 void friction_wheel_3510_id2_speed_pid_init(void);
 int16_t friction_wheel_3510_id2_speed_pid_loop(int16_t friction_wheel_3510_id2_speed_set_loop);
 
+void friction_wheel_3510_id3_speed_pid_init(void);
+int16_t friction_wheel_3510_id3_speed_pid_loop(int16_t friction_wheel_3510_id3_speed_set_loop);
+
+void friction_wheel_3510_id4_speed_pid_init(void);
+int16_t friction_wheel_3510_id4_speed_pid_loop(int16_t friction_wheel_3510_id4_speed_set_loop);
+
+void friction_wheel_3510_id5_speed_pid_init(void);
+int16_t friction_wheel_3510_id5_speed_pid_loop(int16_t friction_wheel_3510_id5_speed_set_loop);
+
+void friction_wheel_3510_id6_speed_pid_init(void);
+int16_t friction_wheel_3510_id6_speed_pid_loop(int16_t friction_wheel_3510_id6_speed_set_loop);
 
 
 

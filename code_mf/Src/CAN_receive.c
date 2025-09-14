@@ -41,14 +41,14 @@ motor data,  0:chassis motor1 3508;1:chassis motor3 3508;2:chassis motor3 3508;3
 motor_measure_t motor_can1_data[7];
 motor_measure_t motor_can2_data[7];
 
-static CAN_TxHeaderTypeDef  shoot_tx_message;
-static uint8_t              shoot_can_send_data[8];
+static CAN_TxHeaderTypeDef  shoot1234_tx_message;
+static uint8_t              shoot1234_can_send_data[8];
+static CAN_TxHeaderTypeDef  shoot5678_tx_message;
+static uint8_t              shoot5678_can_send_data[8];
 static CAN_TxHeaderTypeDef  chassis_tx_message;
 static uint8_t              chassis_can_send_data[8];
 static CAN_TxHeaderTypeDef  yaw_tx_message;
 static uint8_t              yaw_can_send_data[8];
-static CAN_TxHeaderTypeDef  pitch_tx_message;
-static uint8_t              pitch_can_send_data[8];
 
 /**
   * @brief          hal CAN fifo call back, receive motor data
@@ -123,45 +123,8 @@ void HAL_CAN_RxFifo0MsgPendingCallback(CAN_HandleTypeDef *hcan)
 //        pitch_motor_mean_speed_compute();//pitch速度均值滤波 弃用
     }
 }
-void CAN2_cmd_pitch(int16_t pitch, int16_t none0, int16_t none1, int16_t none2)
-{
-    uint32_t send_mail_box;
-    pitch_tx_message.StdId = CAN_GIMBAL_ALL_ID;
-    pitch_tx_message.IDE = CAN_ID_STD;
-    pitch_tx_message.RTR = CAN_RTR_DATA;
-    pitch_tx_message.DLC = 0x08;
-    pitch_can_send_data[0] = (none0 >> 8);
-    pitch_can_send_data[1] = none0;
-    pitch_can_send_data[2] = (pitch >> 8);
-    pitch_can_send_data[3] = pitch;
-    pitch_can_send_data[4] = (none1 >> 8);
-    pitch_can_send_data[5] = none1;
-    pitch_can_send_data[6] = (none2 >> 8);
-    pitch_can_send_data[7] = none2;
-    HAL_CAN_AddTxMessage(&hcan2, &pitch_tx_message, pitch_can_send_data, &send_mail_box);
-}
 
 
-
-//摩擦轮电机电流发送函数
-void CAN2_cmd_friction_wheels(int16_t friction_wheel0, int16_t friction_wheel1, int16_t none0, int16_t none1)
-{
-    uint32_t send_mail_box;
-    chassis_tx_message.StdId = CAN_CHASSIS_ALL_ID;
-    chassis_tx_message.IDE = CAN_ID_STD;
-    chassis_tx_message.RTR = CAN_RTR_DATA;
-    chassis_tx_message.DLC = 0x08;
-    chassis_can_send_data[0] = friction_wheel0 >> 8;
-    chassis_can_send_data[1] = friction_wheel0;
-    chassis_can_send_data[2] = friction_wheel1 >> 8;
-    chassis_can_send_data[3] = friction_wheel1;
-    chassis_can_send_data[4] = none0 >> 8;
-    chassis_can_send_data[5] = none0;
-    chassis_can_send_data[6] = none1 >> 8;
-    chassis_can_send_data[7] = none1;
-
-    HAL_CAN_AddTxMessage(&hcan2, &chassis_tx_message, chassis_can_send_data, &send_mail_box);
-}
 
 
 void CAN1_cmd_chassis(int16_t motor1, int16_t motor2, int16_t motor3, int16_t motor4)
@@ -183,18 +146,18 @@ void CAN1_cmd_chassis(int16_t motor1, int16_t motor2, int16_t motor3, int16_t mo
     HAL_CAN_AddTxMessage(&hcan1, &chassis_tx_message, chassis_can_send_data, &send_mail_box);
 }
 
-//yaw电机电流发送函数
-void CAN1_cmd_yaw(int16_t yaw, int16_t motor2, int16_t motor3, int16_t motor4)
+//底盘can2电机电流发送函数
+void CAN1_cmd_yaw_pitch_toggle(int16_t pitch, int16_t yaw, int16_t motor3, int16_t motor4)
 {
     uint32_t send_mail_box;
-    yaw_tx_message.StdId = CAN_GIMBAL_ALL_ID;
+    yaw_tx_message.StdId = CAN_GIMBAL_ALL_ID_1_4;
     yaw_tx_message.IDE = CAN_ID_STD;
     yaw_tx_message.RTR = CAN_RTR_DATA;
     yaw_tx_message.DLC = 0x08;
-    yaw_can_send_data[0] = yaw >> 8;
-    yaw_can_send_data[1] = yaw;
-    yaw_can_send_data[2] = motor2 >> 8;
-    yaw_can_send_data[3] = motor2;
+    yaw_can_send_data[0] = pitch >> 8;
+    yaw_can_send_data[1] = pitch;
+    yaw_can_send_data[2] = yaw >> 8;
+    yaw_can_send_data[3] = yaw;
     yaw_can_send_data[4] = motor3 >> 8;
     yaw_can_send_data[5] = motor3;
     yaw_can_send_data[6] = motor4 >> 8;
@@ -203,6 +166,42 @@ void CAN1_cmd_yaw(int16_t yaw, int16_t motor2, int16_t motor3, int16_t motor4)
     HAL_CAN_AddTxMessage(&hcan1, &yaw_tx_message, yaw_can_send_data, &send_mail_box);
 }
 
+//摩擦轮电机电流发送函数
+void CAN2_cmd_friction_wheels_1234(int16_t friction_wheel1, int16_t friction_wheel2, int16_t friction_wheel3, int16_t friction_wheel4)
+{
+    uint32_t send_mail_box;
+    shoot1234_tx_message.StdId = CAN_CHASSIS_ALL_ID;
+    shoot1234_tx_message.IDE = CAN_ID_STD;
+    shoot1234_tx_message.RTR = CAN_RTR_DATA;
+    shoot1234_tx_message.DLC = 0x08;
+    shoot1234_can_send_data[0] = friction_wheel1 >> 8;
+    shoot1234_can_send_data[1] = friction_wheel1;
+    shoot1234_can_send_data[2] = friction_wheel2 >> 8;
+    shoot1234_can_send_data[3] = friction_wheel2;
+    shoot1234_can_send_data[4] = friction_wheel3 >> 8;
+    shoot1234_can_send_data[5] = friction_wheel3;
+    shoot1234_can_send_data[6] = friction_wheel4 >> 8;
+    shoot1234_can_send_data[7] = friction_wheel4;
 
+    HAL_CAN_AddTxMessage(&hcan2, &shoot1234_tx_message, shoot1234_can_send_data, &send_mail_box);
+}
 
+//摩擦轮电机电流发送函数
+void CAN2_cmd_friction_wheels_5678(int16_t friction_wheel5, int16_t friction_wheel6, int16_t motor7, int16_t none)
+{
+    uint32_t send_mail_box;
+    shoot5678_tx_message.StdId = CAN_GIMBAL_ALL_ID_1_4;
+    shoot5678_tx_message.IDE = CAN_ID_STD;
+    shoot5678_tx_message.RTR = CAN_RTR_DATA;
+    shoot5678_tx_message.DLC = 0x08;
+    shoot5678_can_send_data[0] = friction_wheel5 >> 8;
+    shoot5678_can_send_data[1] = friction_wheel5;
+    shoot5678_can_send_data[2] = friction_wheel6 >> 8;
+    shoot5678_can_send_data[3] = friction_wheel6;
+    shoot5678_can_send_data[4] = motor7 >> 8;
+    shoot5678_can_send_data[5] = motor7;
+    shoot5678_can_send_data[6] = none >> 8;
+    shoot5678_can_send_data[7] = none;
 
+    HAL_CAN_AddTxMessage(&hcan2, &shoot5678_tx_message, shoot5678_can_send_data, &send_mail_box);
+}

@@ -5,7 +5,7 @@
 #ifndef BUBING_RM2025_UART_SENT_H
 #define BUBING_RM2025_UART_SENT_H
 
-void uart_sent();
+void uart_sent_debug();
 
 
 

@@ -144,9 +144,9 @@ float YAW_6020_ID1_GIVEN_SPEED ;
 int16_t YAW_6020_ID1_GIVEN_CURRENT ;
 float YAW_6020_ID1_GIVEN_ANGLE ;
 
-float PITCH_6020_ID2_GIVEN_ANGLE ;
-float PITCH_6020_ID2_GIVEN_SPEED ;
-int16_t PITCH_6020_ID2_GIVEN_CURRENT ;
+float PITCH_3510_ID5_GIVEN_ANGLE = -13.5f;
+float PITCH_3510_ID5_GIVEN_SPEED ;
+int16_t PITCH_3510_ID5_GIVEN_CURRENT ;
 float pitch_motor_mean_speed ;
 int16_t pitch_motor_speed_last_data [3] ;
 
@@ -157,6 +157,18 @@ int16_t FRICTION_WHEEL_3510_ID1_GIVEN_CURRENT ;
 
 int16_t FRICTION_WHEEL_3510_ID2_GIVEN_SPEED ;
 int16_t FRICTION_WHEEL_3510_ID2_GIVEN_CURRENT ;
+
+int16_t FRICTION_WHEEL_3510_ID3_GIVEN_SPEED ;
+int16_t FRICTION_WHEEL_3510_ID3_GIVEN_CURRENT ;
+
+int16_t FRICTION_WHEEL_3510_ID4_GIVEN_SPEED ;
+int16_t FRICTION_WHEEL_3510_ID4_GIVEN_CURRENT ;
+
+int16_t FRICTION_WHEEL_3510_ID5_GIVEN_SPEED ;
+int16_t FRICTION_WHEEL_3510_ID5_GIVEN_CURRENT ;
+
+int16_t FRICTION_WHEEL_3510_ID6_GIVEN_SPEED ;
+int16_t FRICTION_WHEEL_3510_ID6_GIVEN_CURRENT ;
 
 
 
@@ -317,6 +329,10 @@ int main(void)
     //摩擦轮电机初始化
     friction_wheel_3510_id1_speed_pid_init();//摩擦轮id1速度环初始化
     friction_wheel_3510_id2_speed_pid_init();//摩擦轮id2速度环初始化
+    friction_wheel_3510_id3_speed_pid_init();//摩擦轮id3速度环初始化
+    friction_wheel_3510_id4_speed_pid_init();//摩擦轮id4速度环初始化
+    friction_wheel_3510_id5_speed_pid_init();//摩擦轮id5速度环初始化
+    friction_wheel_3510_id6_speed_pid_init();//摩擦轮id6速度环初始化
 
     //拨弹盘电机初始化
     shoot_2006_id3_speed_pid_init();//拨弹盘id3速度环初始化

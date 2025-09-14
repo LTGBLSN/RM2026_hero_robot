@@ -120,8 +120,13 @@ void yaw_ecd_angle_to_radian()
 
 void gimbal_to_chassis_speed_compute()
 {
-    chassis_vx = gimbal_vx * (float)cos((double)yaw_radian_difference) - gimbal_vy * (float)sin((double)yaw_radian_difference);
-    chassis_vy = gimbal_vx * (float)sin((double)yaw_radian_difference) + gimbal_vy * (float)cos((double)yaw_radian_difference);
+//    云台坐标系通过yaw电机转换到底盘坐标系注意底盘跟随部分
+//    chassis_vx = gimbal_vx * (float)cos((double)yaw_radian_difference) - gimbal_vy * (float)sin((double)yaw_radian_difference);
+//    chassis_vy = gimbal_vx * (float)sin((double)yaw_radian_difference) + gimbal_vy * (float)cos((double)yaw_radian_difference);
+
+//遥控器直接转换注意底盘跟随部分
+    chassis_vx = gimbal_vx ;
+    chassis_vy = gimbal_vy ;
 
 
 
@@ -167,9 +172,9 @@ void chassis_settlement()
             }
             else
             {
-                CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED = chassis_follow_gimbal_pid_loop(YAW_MID_ECD);//底盘跟随
-                chassis_vround = CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
-//                chassis_vround = 0 ;//在这给底盘跟随做速度闭环
+//                CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED = chassis_follow_gimbal_pid_loop(YAW_MID_ECD);//底盘跟随
+//                chassis_vround = CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
+                chassis_vround = 4.0f * (float )rc_ch2 ;//在这给底盘跟随做速度闭环
             }
 
         }
