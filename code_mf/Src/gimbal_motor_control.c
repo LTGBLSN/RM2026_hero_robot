@@ -9,11 +9,11 @@
 #include "gimbal_motor_control.h"
 #include "shoot_control.h"
 
-pid_type_def yaw_6020_ID1_speed_pid;
-pid_type_def yaw_6020_ID1_angle_pid;
+pid_type_def yaw_6020_ID2_speed_pid;
+pid_type_def yaw_6020_ID2_angle_pid;
 
 pid_type_def pitch_3510_ID5_speed_pid;
-pid_type_def pitch_6020_ID2_angle_pid;
+pid_type_def pitch_3510_ID5_angle_pid;
 
 
 pid_type_def friction_wheel_3510_ID1_speed_pid;
@@ -95,7 +95,7 @@ void motor_gimbal_angle_compute()
 
 
 
-         YAW_6020_ID1_GIVEN_ANGLE = YAW_6020_ID1_GIVEN_ANGLE + (YAW_RC_IN_KP * (float)rc_ch2) ;
+         YAW_6020_ID2_GIVEN_ANGLE = YAW_6020_ID2_GIVEN_ANGLE + (YAW_RC_IN_KP * (float)rc_ch2) ;
 
      } else//键盘还没写
      {
@@ -133,8 +133,9 @@ void yaw_imu_getAbscissa()
 
 void motor_gimbal_pid_compute()
 {
-    YAW_6020_ID1_GIVEN_SPEED = yaw_angle_pid_loop(YAW_6020_ID1_GIVEN_ANGLE) ;//角度环
-    YAW_6020_ID1_GIVEN_CURRENT = (int16_t)yaw_speed_pid_loop(YAW_6020_ID1_GIVEN_SPEED);//速度环
+    YAW_6020_ID2_GIVEN_SPEED = yaw_angle_pid_loop(YAW_6020_ID2_GIVEN_ANGLE) ;//角度环
+//    YAW_6020_ID2_GIVEN_SPEED = -( (float)rc_ch2 * 0.01f) ;
+    YAW_6020_ID2_GIVEN_CURRENT = (int16_t)yaw_speed_pid_loop(YAW_6020_ID2_GIVEN_SPEED);//速度环
 
 
 //    PITCH_3510_ID5_GIVEN_SPEED = pitch_angle_from_bmi088_pid_loop(PITCH_3510_ID5_GIVEN_ANGLE);//角度环
@@ -205,14 +206,14 @@ void pitch_motor_mean_speed_compute()//弃用，滞后性有点大
 void yaw_angle_pid_init(void)
 {
     static fp32 yaw_6020_id1_angle_kpkikd[3] = {YAW_6020_ID2_ANGLE_PID_KP, YAW_6020_ID2_ANGLE_PID_KI, YAW_6020_ID2_ANGLE_PID_KD};
-    PID_init(&yaw_6020_ID1_angle_pid, PID_POSITION, yaw_6020_id1_angle_kpkikd, YAW_6020_ID2_ANGLE_PID_OUT_MAX, YAW_6020_ID2_ANGLE_PID_KI_MAX);
+    PID_init(&yaw_6020_ID2_angle_pid, PID_POSITION, yaw_6020_id1_angle_kpkikd, YAW_6020_ID2_ANGLE_PID_OUT_MAX, YAW_6020_ID2_ANGLE_PID_KI_MAX);
 
 }
 
 float yaw_angle_pid_loop(float YAW_6020_ID1_angle_set_loop)
 {
-    PID_calc(&yaw_6020_ID1_angle_pid, YAW_IMU_ABSCISSA , YAW_6020_ID1_angle_set_loop);
-    float yaw_6020_ID1_given_speed_loop = (float)(yaw_6020_ID1_angle_pid.out);
+    PID_calc(&yaw_6020_ID2_angle_pid, YAW_IMU_ABSCISSA , YAW_6020_ID1_angle_set_loop);
+    float yaw_6020_ID1_given_speed_loop = (float)(yaw_6020_ID2_angle_pid.out);
 
     return yaw_6020_ID1_given_speed_loop ;
 
@@ -222,14 +223,14 @@ float yaw_angle_pid_loop(float YAW_6020_ID1_angle_set_loop)
 void yaw_speed_pid_init(void)
 {
     static fp32 yaw_6020_id1_speed_kpkikd[3] = {YAW_6020_ID2_SPEED_PID_KP, YAW_6020_ID2_SPEED_PID_KI, YAW_6020_ID2_SPEED_PID_KD};
-    PID_init(&yaw_6020_ID1_speed_pid, PID_POSITION, yaw_6020_id1_speed_kpkikd, YAW_6020_ID2_SPEED_PID_OUT_MAX, YAW_6020_ID2_SPEED_PID_KI_MAX);
+    PID_init(&yaw_6020_ID2_speed_pid, PID_POSITION, yaw_6020_id1_speed_kpkikd, YAW_6020_ID2_SPEED_PID_OUT_MAX, YAW_6020_ID2_SPEED_PID_KI_MAX);
 
 }
 
 float yaw_speed_pid_loop(float YAW_6020_ID1_speed_set_loop)
 {
-    PID_calc(&yaw_6020_ID1_speed_pid, yaw_speed_from_bmi088 , YAW_6020_ID1_speed_set_loop);
-    int16_t yaw_6020_ID1_given_current_loop = (int16_t)(yaw_6020_ID1_speed_pid.out);
+    PID_calc(&yaw_6020_ID2_speed_pid, yaw_speed_from_bmi088 , YAW_6020_ID1_speed_set_loop);
+    int16_t yaw_6020_ID1_given_current_loop = (int16_t)(yaw_6020_ID2_speed_pid.out);
 
     return yaw_6020_ID1_given_current_loop ;
 
@@ -259,14 +260,14 @@ float pitch_speed_from_3510_pid_loop(float PITCH_3510_ID5_speed_set_loop)
 void pitch_angle_pid_init(void)
 {
     static fp32 pitch_6020_id2_angle_kpkikd[3] = {PITCH_3510_ID5_ANGLE_PID_KP, PITCH_3510_ID5_ANGLE_PID_KI, PITCH_3510_ID5_ANGLE_PID_KD};
-    PID_init(&pitch_6020_ID2_angle_pid, PID_POSITION, pitch_6020_id2_angle_kpkikd, PITCH_3510_ID5_ANGLE_PID_OUT_MAX, PITCH_3510_ID5_ANGLE_PID_KI_MAX);
+    PID_init(&pitch_3510_ID5_angle_pid, PID_POSITION, pitch_6020_id2_angle_kpkikd, PITCH_3510_ID5_ANGLE_PID_OUT_MAX, PITCH_3510_ID5_ANGLE_PID_KI_MAX);
 
 }
 
 float pitch_angle_from_bmi088_pid_loop(float PITCH_6020_ID2_angle_set_loop)
 {
-    PID_calc(&pitch_6020_ID2_angle_pid, pitch_angle_from_bmi088 , PITCH_6020_ID2_angle_set_loop);
-    float pitch_6020_ID2_given_speed_loop = (float)(pitch_6020_ID2_angle_pid.out);
+    PID_calc(&pitch_3510_ID5_angle_pid, pitch_angle_from_bmi088 , PITCH_6020_ID2_angle_set_loop);
+    float pitch_6020_ID2_given_speed_loop = (float)(pitch_3510_ID5_angle_pid.out);
 
     return pitch_6020_ID2_given_speed_loop ;
 

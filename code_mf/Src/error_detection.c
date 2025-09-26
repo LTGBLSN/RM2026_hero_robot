@@ -27,7 +27,6 @@ void error_detection()
 
         rc_connection_status();//遥控器离线判断
         yaw_6020_status();//yaw电机过温判断
-        pitch_6020_status();//pitch电机过温判断
 
 
 
@@ -56,7 +55,7 @@ void rc_connection_status()
 
 void yaw_6020_status()
 {
-    if(GM6020_TEMP_MAX > motor_can1_data[4].temperate)
+    if(GM6020_TEMP_MAX > motor_can1_data[5].temperate)
     {
         yaw_6020_state = GM6020_SAFE ;//安全
     }
@@ -67,17 +66,6 @@ void yaw_6020_status()
 
 }
 
-void pitch_6020_status()
-{
-    if(GM6020_TEMP_MAX > motor_can2_data[5].temperate)//观测值需要改
-    {
-        pitch_6020_state = GM6020_SAFE ;//安全
-    }
-    else
-    {
-        pitch_6020_state = GM6020_DIE ;//过温
-    }
 
-}
 
 

@@ -27,7 +27,12 @@ void uart_sent_debug()
 {
     while (1)
     {
-        usart6_printf("%d,%f,%d \r\n",motor_can1_data[4].speed_rpm,PITCH_3510_ID5_GIVEN_SPEED,PITCH_3510_ID5_GIVEN_CURRENT);
+        usart6_printf("%f,%f,%f,%f,%d \r\n",
+                      YAW_IMU_ABSCISSA,
+                      YAW_6020_ID2_GIVEN_ANGLE,
+                      yaw_speed_from_bmi088,
+                      YAW_6020_ID2_GIVEN_SPEED,
+                      yaw_6020_state);
 
 
 

@@ -93,7 +93,6 @@ uint32_t rc_receive_time ;//遥控器接收到数据的时间戳
 
 
 int16_t yaw_6020_state ;//6020电机状态 0为错误，1为正常
-int16_t pitch_6020_state ;//6020电机状态 0为错误，1为正常
 
 float gimbal_vx ;
 float gimbal_vy ;
@@ -140,9 +139,9 @@ int16_t chassis_power_state ;//0为正常，1为超功率限制状态
 
 
 //gimbal_vx
-float YAW_6020_ID1_GIVEN_SPEED ;
-int16_t YAW_6020_ID1_GIVEN_CURRENT ;
-float YAW_6020_ID1_GIVEN_ANGLE ;
+float YAW_6020_ID2_GIVEN_SPEED ;
+int16_t YAW_6020_ID2_GIVEN_CURRENT ;
+float YAW_6020_ID2_GIVEN_ANGLE ;
 
 float PITCH_3510_ID5_GIVEN_ANGLE = -13.5f;
 float PITCH_3510_ID5_GIVEN_SPEED ;

@@ -29,17 +29,17 @@
 #include <math.h>
 
 
-#define YAW_6020_ID2_ANGLE_PID_KP        0.2f
+#define YAW_6020_ID2_ANGLE_PID_KP        0.3f
 #define YAW_6020_ID2_ANGLE_PID_KI        0.0f
-#define YAW_6020_ID2_ANGLE_PID_KD        0.0f
-#define YAW_6020_ID2_ANGLE_PID_OUT_MAX   30.0f
+#define YAW_6020_ID2_ANGLE_PID_KD        5.0f
+#define YAW_6020_ID2_ANGLE_PID_OUT_MAX   8.0f
 #define YAW_6020_ID2_ANGLE_PID_KI_MAX    0.0f
 
-#define YAW_6020_ID2_SPEED_PID_KP        10000.0f
-#define YAW_6020_ID2_SPEED_PID_KI        20.0f
+#define YAW_6020_ID2_SPEED_PID_KP        22000.0f//18000.0f
+#define YAW_6020_ID2_SPEED_PID_KI        10.0f
 #define YAW_6020_ID2_SPEED_PID_KD        0.0f
 #define YAW_6020_ID2_SPEED_PID_OUT_MAX   30000.0f
-#define YAW_6020_ID2_SPEED_PID_KI_MAX    10000.0f
+#define YAW_6020_ID2_SPEED_PID_KI_MAX    5000.0f
 
 
 
@@ -105,17 +105,17 @@
 #define GIMBAL_PID_COMPUTE_FREQUENCY 1000  // Hz
 
 #define PITCH_RC_IN_KP (-0.0001f)
-#define YAW_RC_IN_KP (-0.001f)
+#define YAW_RC_IN_KP (-0.0006f)
 
 #define PITCH_MIN (0.0f) //4.0
 #define PITCH_MAX (-30.00f) //36.0
 
 
-extern pid_type_def yaw_6020_ID1_speed_pid;
+extern pid_type_def yaw_6020_ID2_speed_pid;
 
 
 extern pid_type_def pitch_3510_ID5_speed_pid;
-extern pid_type_def pitch_6020_ID2_angle_pid;
+extern pid_type_def pitch_3510_ID5_angle_pid;
 
 
 

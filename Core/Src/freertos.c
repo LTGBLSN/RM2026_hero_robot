@@ -150,11 +150,11 @@ void MX_FREERTOS_Init(void) {
   err_dec_taskHandle = osThreadCreate(osThread(err_dec_task), NULL);
 
   /* definition and creation of chassisMotorTas */
-  osThreadDef(chassisMotorTas, chassis_motor_control, osPriorityIdle, 0, 128);
+  osThreadDef(chassisMotorTas, chassis_motor_control, osPriorityIdle, 0, 256);
   chassisMotorTasHandle = osThreadCreate(osThread(chassisMotorTas), NULL);
 
   /* definition and creation of gimbalTask */
-  osThreadDef(gimbalTask, gimbal_motor_control, osPriorityIdle, 0, 128);
+  osThreadDef(gimbalTask, gimbal_motor_control, osPriorityIdle, 0, 256);
   gimbalTaskHandle = osThreadCreate(osThread(gimbalTask), NULL);
 
   /* definition and creation of shoot_con_task */
@@ -170,11 +170,11 @@ void MX_FREERTOS_Init(void) {
   servoHandle = osThreadCreate(osThread(servo), NULL);
 
   /* definition and creation of imu_data */
-  osThreadDef(imu_data, IMU_DATA_GET, osPriorityIdle, 0, 128);
+  osThreadDef(imu_data, IMU_DATA_GET, osPriorityIdle, 0, 256);
   imu_dataHandle = osThreadCreate(osThread(imu_data), NULL);
 
   /* definition and creation of aim_uart_task */
-  osThreadDef(aim_uart_task, aim_uart_sent, osPriorityIdle, 0, 128);
+  osThreadDef(aim_uart_task, aim_uart_sent, osPriorityIdle, 0, 256);
   aim_uart_taskHandle = osThreadCreate(osThread(aim_uart_task), NULL);
 
   /* USER CODE BEGIN RTOS_THREADS */
