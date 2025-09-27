@@ -27,12 +27,8 @@ void uart_sent_debug()
 {
     while (1)
     {
-        usart6_printf("%f,%f,%f,%f,%d \r\n",
-                      YAW_IMU_ABSCISSA,
-                      YAW_6020_ID2_GIVEN_ANGLE,
-                      yaw_speed_from_bmi088,
-                      YAW_6020_ID2_GIVEN_SPEED,
-                      yaw_6020_state);
+        usart6_printf("%f \r\n",
+                      YAW_6020_ID2_GIVEN_ANGLE);
 
 
 

@@ -64,14 +64,14 @@ void can_sent()
 //                            0,
 //                            0,
 //                            0,
-//                            PITCH_3510_ID5_GIVEN_CURRENT,
 //                            0,
 //                            0,
 //                            0,
 //                            0,
 //                            0,
 //                            0,
-//                            0);//PITCH_3510_ID5_GIVEN_CURRENT
+//                            0,
+//                            5000);//PITCH_3510_ID5_GIVEN_CURRENT
 
                 can_cmd_all(CHASSIS_3508_ID1_GIVEN_CURRENT,
                             CHASSIS_3508_ID2_GIVEN_CURRENT,

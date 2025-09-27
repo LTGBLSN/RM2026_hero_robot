@@ -38,9 +38,10 @@ pid_type_def shoot_2006_ID3_speed_pid;
         friction_wheel_pid_control();//摩擦轮pid控制
 
 
-        yaw_imu_getAbscissa() ;//更新陀螺仪总角度
+//        yaw_imu_getAbscissa() ;//更新陀螺仪总角度
 
         motor_gimbal_angle_compute();//目标角度控制
+        pid_preprocess();//pid预处理
         motor_gimbal_pid_compute();//云台pid控制
 
 
@@ -92,6 +93,16 @@ void motor_gimbal_angle_compute()
              }
          }
 
+         if(rc_s1 == 1)
+         {
+             //自瞄模式的yaw
+         } else
+         {
+             //非自瞄模式的yaw
+             rc_yaw_input_normalization();
+         }
+
+
 
 
 
@@ -130,6 +141,40 @@ void yaw_imu_getAbscissa()
 
 }
 
+
+void rc_yaw_input_normalization()
+{
+    float YAW_GIVEN_ANGLE_COMPUTE = YAW_6020_ID2_GIVEN_ANGLE + (YAW_RC_IN_KP * (float)rc_ch2) ;
+
+    if(YAW_GIVEN_ANGLE_COMPUTE > 180.0f)
+    {
+        YAW_6020_ID2_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE - 360.0f ;
+    }
+    else if(YAW_GIVEN_ANGLE_COMPUTE < -180.0f)
+    {
+        YAW_6020_ID2_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE + 360.0f ;
+    } else
+    {
+        YAW_6020_ID2_GIVEN_ANGLE =  YAW_GIVEN_ANGLE_COMPUTE ;
+    }
+}
+
+
+void pid_preprocess()
+{
+    if((YAW_6020_ID2_GIVEN_ANGLE - yaw_angle_from_bmi088) < -180.0f )
+    {
+        yaw_imu_preprocess = yaw_angle_from_bmi088 - 360.0f ;
+    }
+    else if((YAW_6020_ID2_GIVEN_ANGLE - yaw_angle_from_bmi088) > 180.0f )
+    {
+        yaw_imu_preprocess = yaw_angle_from_bmi088 + 360.0f ;
+    }
+    else
+    {
+        yaw_imu_preprocess = yaw_angle_from_bmi088 ;
+    }
+}
 
 void motor_gimbal_pid_compute()
 {
@@ -210,12 +255,12 @@ void yaw_angle_pid_init(void)
 
 }
 
-float yaw_angle_pid_loop(float YAW_6020_ID1_angle_set_loop)
+float yaw_angle_pid_loop(float YAW_6020_ID2_angle_set_loop)
 {
-    PID_calc(&yaw_6020_ID2_angle_pid, YAW_IMU_ABSCISSA , YAW_6020_ID1_angle_set_loop);
-    float yaw_6020_ID1_given_speed_loop = (float)(yaw_6020_ID2_angle_pid.out);
+    PID_calc(&yaw_6020_ID2_angle_pid, yaw_imu_preprocess , YAW_6020_ID2_angle_set_loop);
+    float yaw_6020_ID2_given_speed_loop = (float)(yaw_6020_ID2_angle_pid.out);
 
-    return yaw_6020_ID1_given_speed_loop ;
+    return yaw_6020_ID2_given_speed_loop ;
 
 }
 

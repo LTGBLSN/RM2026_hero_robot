@@ -143,7 +143,7 @@ float YAW_6020_ID2_GIVEN_SPEED ;
 int16_t YAW_6020_ID2_GIVEN_CURRENT ;
 float YAW_6020_ID2_GIVEN_ANGLE ;
 
-float PITCH_3510_ID5_GIVEN_ANGLE = -13.5f;
+float PITCH_3510_ID5_GIVEN_ANGLE ;
 float PITCH_3510_ID5_GIVEN_SPEED ;
 int16_t PITCH_3510_ID5_GIVEN_CURRENT ;
 float pitch_motor_mean_speed ;
@@ -218,6 +218,8 @@ float YAW_IMU_LAST_ECD ;
 float YAW_IMU_LAPS ;
 float YAW_IMU_ABSCISSA ;
 
+
+float yaw_imu_preprocess ;
 
 uint8_t uart1_receive_data ;//串口当前接收字节
 

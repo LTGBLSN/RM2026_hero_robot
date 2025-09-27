@@ -132,9 +132,10 @@ extern pid_type_def friction_wheel_3510_ID6_speed_pid;
 extern pid_type_def shoot_2006_ID3_speed_pid;
 
 
-
+void rc_yaw_input_normalization();//yaw输入归一化
 void yaw_imu_getAbscissa();//YAW里程计
 void motor_gimbal_angle_compute();//目标赋值
+void pid_preprocess();//pid预处理
 
 void motor_gimbal_pid_compute();//pid计算
 
@@ -152,7 +153,7 @@ void friction_wheel_pid_control();//pid计算
 void yaw_speed_pid_init(void);
 float yaw_speed_pid_loop(float YAW_6020_ID1_speed_set_loop);
 void yaw_angle_pid_init(void);
-float yaw_angle_pid_loop(float YAW_6020_ID1_angle_set_loop);
+float yaw_angle_pid_loop(float YAW_6020_ID2_angle_set_loop);
 
 void pitch_speed_from_bmi88_pid_init(void);
 float pitch_speed_from_3510_pid_loop(float PITCH_3510_ID5_speed_set_loop);

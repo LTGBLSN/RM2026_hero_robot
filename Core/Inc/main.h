@@ -204,6 +204,9 @@ extern float YAW_IMU_LAPS ;
 extern float YAW_IMU_ABSCISSA ;
 
 
+extern float yaw_imu_preprocess ;
+
+
 extern uint8_t uart1_receive_data ;//串口当前接收字节
 
 /* USER CODE END EC */
