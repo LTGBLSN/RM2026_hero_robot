@@ -53,7 +53,7 @@ void shoot_stop_check();
 void shoot_pid_control();
 
 void shoot_2006_id3_speed_pid_init(void);
-int16_t shoot_2006_id3_speed_pid_loop(float shoot_2006_ID3_speed_set_loop);
+int16_t shoot_3510_id7_speed_pid_loop(float shoot_3510_ID7_speed_set_loop);
 
 
 

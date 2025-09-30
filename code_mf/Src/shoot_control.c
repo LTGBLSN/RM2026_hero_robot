@@ -14,11 +14,11 @@ void shoot_control()
     while (1)
     {
 
-        //此函数函数阻塞
+        //此任务不阻塞
 
 
         shoot_speed_compute();//拨弹盘目标速度控制
-        shoot_stop_check();//拨弹盘堵转反转（阻塞）
+        shoot_stop_check();//拨弹盘堵转反转
         //拨弹盘的速度闭环在不阻塞的gimbal_motor_control里面
 
 
@@ -53,21 +53,9 @@ void shoot_speed_compute()
 
 void shoot_stop_check()
 {
-    if(SHOOT_2006_ID3_GIVEN_SPEED == SHOOT_TURN_ON_SPEED)
+    if(0)
     {
-
-        //如果卡住了//待更新，卡弹检测灵敏度不够，存才缓慢旋转
-        if(motor_can2_data[2].speed_rpm == 0)
-        {
-            osDelay(SHOOT_SPEED_CHECK_TIME);
-            if(motor_can2_data[2].speed_rpm == 0)
-            {
-                SHOOT_2006_ID3_GIVEN_SPEED = SHOOT_TURN_OFF_SPEED ;
-                osDelay(SHOOT_TURN_OFF_TIME);
-                SHOOT_2006_ID3_GIVEN_SPEED = SHOOT_TURN_ON_SPEED ;
-            }
-        }
-
+        //如果卡住了
 
     }
 }
@@ -79,7 +67,7 @@ void shoot_stop_check()
 void shoot_pid_control()
 {
     //shoot
-    SHOOT_2006_ID3_GIVEN_CURRENT = shoot_2006_id3_speed_pid_loop(SHOOT_2006_ID3_GIVEN_SPEED);
+    SHOOT_3510_ID7_GIVEN_CURRENT = shoot_3510_id7_speed_pid_loop(SHOOT_2006_ID3_GIVEN_SPEED);
 }
 
 
@@ -92,16 +80,16 @@ void shoot_pid_control()
 void shoot_2006_id3_speed_pid_init(void)
 {
     static fp32 shoot_2006_id3_speed_kpkikd[3] = {SHOOT_2006_ID3_SPEED_PID_KP,SHOOT_2006_ID3_SPEED_PID_KI,SHOOT_2006_ID3_SPEED_PID_KD};
-    PID_init(&shoot_2006_ID3_speed_pid,PID_POSITION,shoot_2006_id3_speed_kpkikd,SHOOT_2006_ID3_SPEED_PID_OUT_MAX,SHOOT_2006_ID3_SPEED_PID_KI_MAX);
+    PID_init(&shoot_3510_ID7_speed_pid, PID_POSITION, shoot_2006_id3_speed_kpkikd, SHOOT_2006_ID3_SPEED_PID_OUT_MAX, SHOOT_2006_ID3_SPEED_PID_KI_MAX);
 
 }
 
-int16_t shoot_2006_id3_speed_pid_loop(float shoot_2006_ID3_speed_set_loop)
+int16_t shoot_3510_id7_speed_pid_loop(float shoot_3510_ID7_speed_set_loop)
 {
-    PID_calc(&shoot_2006_ID3_speed_pid, motor_can2_data[2].speed_rpm , shoot_2006_ID3_speed_set_loop);
-    int16_t shoot_2006_id3_given_current_loop = (int16_t)(shoot_2006_ID3_speed_pid.out);
+    PID_calc(&shoot_3510_ID7_speed_pid, motor_can2_data[2].speed_rpm , shoot_3510_ID7_speed_set_loop);
+    int16_t shoot_3510_id7_given_current_loop = (int16_t)(shoot_3510_ID7_speed_pid.out);
 
-    return shoot_2006_id3_given_current_loop ;
+    return shoot_3510_id7_given_current_loop ;
 
 }
 

@@ -129,7 +129,7 @@ extern pid_type_def friction_wheel_3510_ID6_speed_pid;
 
 
 
-extern pid_type_def shoot_2006_ID3_speed_pid;
+extern pid_type_def shoot_3510_ID7_speed_pid;
 
 
 void rc_yaw_input_normalization();//yaw ‰»ÎπÈ“ªªØ

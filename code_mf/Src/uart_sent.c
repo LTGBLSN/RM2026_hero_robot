@@ -27,8 +27,8 @@ void uart_sent_debug()
 {
     while (1)
     {
-        usart6_printf("%f \r\n",
-                      YAW_6020_ID2_GIVEN_ANGLE);
+        usart6_printf("%d \r\n",
+                      rc_ch4);
 
 
 
