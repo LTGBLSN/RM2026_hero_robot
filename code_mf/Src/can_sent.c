@@ -59,25 +59,11 @@ void can_sent()
             }
             else if(rc_s0 == 3 | rc_s0 == 1)//运动模式
             {
-//                can_cmd_all(0,
-//                            0,
-//                            0,
-//                            0,
-//                            0,
-//                            0,
-//                            0,
-//                            0,
-//                            0,
-//                            0,
-//                            0,
-//                            0,
-//                            5000);//PITCH_3510_ID5_GIVEN_CURRENT
-
-                can_cmd_all(CHASSIS_3508_ID1_GIVEN_CURRENT,
-                            CHASSIS_3508_ID2_GIVEN_CURRENT,
-                            CHASSIS_3508_ID3_GIVEN_CURRENT,
-                            CHASSIS_3508_ID4_GIVEN_CURRENT,
-                            YAW_6020_ID2_GIVEN_CURRENT,
+                can_cmd_all(0,
+                            0,
+                            0,
+                            0,
+                            0,
                             PITCH_3510_ID5_GIVEN_CURRENT,
                             FRICTION_WHEEL_3510_ID1_GIVEN_CURRENT,
                             FRICTION_WHEEL_3510_ID2_GIVEN_CURRENT,
@@ -85,7 +71,21 @@ void can_sent()
                             FRICTION_WHEEL_3510_ID4_GIVEN_CURRENT,
                             FRICTION_WHEEL_3510_ID5_GIVEN_CURRENT,
                             FRICTION_WHEEL_3510_ID6_GIVEN_CURRENT,
-                            0);
+                            SHOOT_3510_ID7_GIVEN_CURRENT);//PITCH_3510_ID5_GIVEN_CURRENT
+
+//                can_cmd_all(CHASSIS_3508_ID1_GIVEN_CURRENT,
+//                            CHASSIS_3508_ID2_GIVEN_CURRENT,
+//                            CHASSIS_3508_ID3_GIVEN_CURRENT,
+//                            CHASSIS_3508_ID4_GIVEN_CURRENT,
+//                            YAW_6020_ID2_GIVEN_CURRENT,
+//                            PITCH_3510_ID5_GIVEN_CURRENT,
+//                            FRICTION_WHEEL_3510_ID1_GIVEN_CURRENT,
+//                            FRICTION_WHEEL_3510_ID2_GIVEN_CURRENT,
+//                            FRICTION_WHEEL_3510_ID3_GIVEN_CURRENT,
+//                            FRICTION_WHEEL_3510_ID4_GIVEN_CURRENT,
+//                            FRICTION_WHEEL_3510_ID5_GIVEN_CURRENT,
+//                            FRICTION_WHEEL_3510_ID6_GIVEN_CURRENT,
+//                            SHOOT_3510_ID7_GIVEN_CURRENT);
             }
 
             else//遥控器数据初始化中或错误，全车断电

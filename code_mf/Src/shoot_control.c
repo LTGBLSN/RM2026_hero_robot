@@ -34,18 +34,18 @@ void shoot_speed_compute()
 {
     if(rc_s1 == 2 | rc_s0 == 2)
     {
-        SHOOT_2006_ID3_GIVEN_SPEED = 0 ;
+        SHOOT_3510_ID7_GIVEN_SPEED = 0 ;
 
     }
     else
     {
         if(rc_ch4 < -300 | mouse_press_l == 1)
         {
-            SHOOT_2006_ID3_GIVEN_SPEED = SHOOT_TURN_ON_SPEED ;
+            SHOOT_3510_ID7_GIVEN_SPEED = SHOOT_TURN_ON_SPEED ;
         }
         else
         {
-            SHOOT_2006_ID3_GIVEN_SPEED = 0 ;
+            SHOOT_3510_ID7_GIVEN_SPEED = 0 ;
         }
     }
 
@@ -67,7 +67,7 @@ void shoot_stop_check()
 void shoot_pid_control()
 {
     //shoot
-    SHOOT_3510_ID7_GIVEN_CURRENT = shoot_3510_id7_speed_pid_loop(SHOOT_2006_ID3_GIVEN_SPEED);
+    SHOOT_3510_ID7_GIVEN_CURRENT = shoot_3510_id7_speed_pid_loop(SHOOT_3510_ID7_GIVEN_SPEED);
 }
 
 
@@ -86,7 +86,7 @@ void shoot_2006_id3_speed_pid_init(void)
 
 int16_t shoot_3510_id7_speed_pid_loop(float shoot_3510_ID7_speed_set_loop)
 {
-    PID_calc(&shoot_3510_ID7_speed_pid, motor_can2_data[2].speed_rpm , shoot_3510_ID7_speed_set_loop);
+    PID_calc(&shoot_3510_ID7_speed_pid, motor_can1_data[6].speed_rpm , shoot_3510_ID7_speed_set_loop);
     int16_t shoot_3510_id7_given_current_loop = (int16_t)(shoot_3510_ID7_speed_pid.out);
 
     return shoot_3510_id7_given_current_loop ;

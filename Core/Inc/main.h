@@ -160,7 +160,7 @@ extern int16_t FRICTION_WHEEL_3510_ID6_GIVEN_CURRENT ;
 
 
 //shoot
-extern float SHOOT_2006_ID3_GIVEN_SPEED ;
+extern float SHOOT_3510_ID7_GIVEN_SPEED ;
 extern int16_t SHOOT_3510_ID7_GIVEN_CURRENT ;
 
 extern int16_t robot_level ;
