@@ -117,3 +117,7 @@
 147	286	7842291287018504	bubing_RM2025.elf	b4df96c831003cf0
 4	105	7842292076034515	CMakeFiles/bubing_RM2025.elf.dir/code_mf/Src/can_sent.c.obj	7df82f5209c0d310
 105	239	7842292077035633	bubing_RM2025.elf	b4df96c831003cf0
+5	211	7896692866872493	CMakeFiles/bubing_RM2025.elf.dir/code_mf/Src/can_sent.c.obj	7df82f5209c0d310
+212	405	7896692868429740	bubing_RM2025.elf	b4df96c831003cf0
+4	122	7896693761350425	CMakeFiles/bubing_RM2025.elf.dir/code_mf/Src/uart_sent.c.obj	43cc3add7c3efe0c
+123	261	7896693762401087	bubing_RM2025.elf	b4df96c831003cf0
