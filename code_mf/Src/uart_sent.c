@@ -27,8 +27,10 @@ void uart_sent_debug()
 {
     while (1)
     {
-        usart6_printf("%f,%d \r\n",
-                      SHOOT_3510_ID7_GIVEN_SPEED,
+        usart6_printf("%d,%d,%d,%d \r\n",
+                      motor_can2_data[1].speed_rpm,
+                      motor_can2_data[2].speed_rpm,
+                      motor_can2_data[3].speed_rpm,
                       motor_can1_data[6].speed_rpm);
 
 
