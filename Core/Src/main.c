@@ -55,7 +55,7 @@
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
 
-const RC_ctrl_t *local_rc_ctrl ;//Ò£¿ØÆ÷Êý¾Ý´æ´¢¿Õ¼ä
+const RC_ctrl_t *local_rc_ctrl ;//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ý´æ´¢ï¿½Õ¼ï¿½
 int16_t rc_ch0 ;
 int16_t rc_ch1 ;
 int16_t rc_ch2 ;
@@ -87,12 +87,12 @@ int16_t mouse_press_l ;
 int16_t mouse_press_r ;
 
 
-int16_t rc_receive_state ;//Ò£¿ØÆ÷×´Ì¬ 0ÎªÀëÏß£¬1ÎªÔÚÏß
-uint32_t rc_receive_time ;//Ò£¿ØÆ÷½ÓÊÕµ½Êý¾ÝµÄÊ±¼ä´Á
+int16_t rc_receive_state ;//Ò£ï¿½ï¿½ï¿½ï¿½×´Ì¬ 0Îªï¿½ï¿½ï¿½ß£ï¿½1Îªï¿½ï¿½ï¿½ï¿½
+uint32_t rc_receive_time ;//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½Ýµï¿½Ê±ï¿½ï¿½ï¿½
 
 
 
-int16_t yaw_6020_state ;//6020µç»ú×´Ì¬ 0Îª´íÎó£¬1ÎªÕý³£
+int16_t yaw_6020_state ;//6020ï¿½ï¿½ï¿½×´Ì¬ 0Îªï¿½ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½
 
 float gimbal_vx ;
 float gimbal_vy ;
@@ -135,7 +135,7 @@ float CHASSIS_FOLLOW_GIMBAL_GIVEN_SPEED ;
 
 float beyond_power ;
 
-int16_t chassis_power_state ;//0ÎªÕý³££¬1Îª³¬¹¦ÂÊÏÞÖÆ×´Ì¬
+int16_t chassis_power_state ;//0Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×´Ì¬
 
 
 //gimbal_vx
@@ -221,7 +221,7 @@ float YAW_IMU_ABSCISSA ;
 
 float yaw_imu_preprocess ;
 
-uint8_t uart1_receive_data ;//´®¿Úµ±Ç°½ÓÊÕ×Ö½Ú
+uint8_t uart1_receive_data ;//ï¿½ï¿½ï¿½Úµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½
 
 
 /* USER CODE END PTD */
@@ -304,39 +304,39 @@ int main(void)
     HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_2);
     HAL_TIM_PWM_Start(&htim8, TIM_CHANNEL_3);
 
-    HAL_UART_Receive_DMA(&huart1, &uart1_receive_data, 1);  //´®¿Ú2½ÓÊÕÊý¾ÝÖÐ¶Ï
+    HAL_UART_Receive_DMA(&huart1, &uart1_receive_data, 1);  //ï¿½ï¿½ï¿½ï¿½2ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð¶ï¿½
 
-    remote_control_init();//Ò£¿ØÆ÷³õÊ¼»¯
+    remote_control_init();//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 
-    local_rc_ctrl = get_remote_control_point();//Ò£¿ØÆ÷³õÊ¼»¯
+    local_rc_ctrl = get_remote_control_point();//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 
-    can_filter_init();//canÍ¨Ñ¶³õÊ¼»¯
+    can_filter_init();//canÍ¨Ñ¶ï¿½ï¿½Ê¼ï¿½ï¿½
     BMI088_init();
 
-    //µ×ÅÌµç»ú³õÊ¼»¯
+    //ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
     chassis_3508_id1_speed_pid_init();
     chassis_3508_id2_speed_pid_init();
     chassis_3508_id3_speed_pid_init();
     chassis_3508_id4_speed_pid_init();
 
-    chassis_follow_gimbal_angle_pid_init();//µ×ÅÌ¸úËæ³õÊ¼»¯
+    chassis_follow_gimbal_angle_pid_init();//ï¿½ï¿½ï¿½Ì¸ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 
-    //ÔÆÌ¨µç»ú³õÊ¼»¯
-    yaw_speed_pid_init();//yawËÙ¶È»·pid³õÊ¼»¯
-    yaw_angle_pid_init();//yawÎ»ÖÃ»·pid³õÊ¼»¯
-    pitch_speed_from_bmi88_pid_init();//pitchËÙ¶È»·pid³õÊ¼»¯
-    pitch_angle_pid_init();//pitch½Ç¶È»·pid³õÊ¼»¯
+    //ï¿½ï¿½Ì¨ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+    yaw_speed_pid_init();//yawï¿½Ù¶È»ï¿½pidï¿½ï¿½Ê¼ï¿½ï¿½
+    yaw_angle_pid_init();//yawÎ»ï¿½Ã»ï¿½pidï¿½ï¿½Ê¼ï¿½ï¿½
+    pitch_speed_from_bmi88_pid_init();//pitchï¿½Ù¶È»ï¿½pidï¿½ï¿½Ê¼ï¿½ï¿½
+    pitch_angle_pid_init();//pitchï¿½Ç¶È»ï¿½pidï¿½ï¿½Ê¼ï¿½ï¿½
 
-    //Ä¦²ÁÂÖµç»ú³õÊ¼»¯
-    friction_wheel_3510_id1_speed_pid_init();//Ä¦²ÁÂÖid1ËÙ¶È»·³õÊ¼»¯
-    friction_wheel_3510_id2_speed_pid_init();//Ä¦²ÁÂÖid2ËÙ¶È»·³õÊ¼»¯
-    friction_wheel_3510_id3_speed_pid_init();//Ä¦²ÁÂÖid3ËÙ¶È»·³õÊ¼»¯
-    friction_wheel_3510_id4_speed_pid_init();//Ä¦²ÁÂÖid4ËÙ¶È»·³õÊ¼»¯
-    friction_wheel_3510_id5_speed_pid_init();//Ä¦²ÁÂÖid5ËÙ¶È»·³õÊ¼»¯
-    friction_wheel_3510_id6_speed_pid_init();//Ä¦²ÁÂÖid6ËÙ¶È»·³õÊ¼»¯
+    //Ä¦ï¿½ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+    friction_wheel_3510_id1_speed_pid_init();//Ä¦ï¿½ï¿½ï¿½ï¿½id1ï¿½Ù¶È»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+    friction_wheel_3510_id2_speed_pid_init();//Ä¦ï¿½ï¿½ï¿½ï¿½id2ï¿½Ù¶È»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+    friction_wheel_3510_id3_speed_pid_init();//Ä¦ï¿½ï¿½ï¿½ï¿½id3ï¿½Ù¶È»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+    friction_wheel_3510_id4_speed_pid_init();//Ä¦ï¿½ï¿½ï¿½ï¿½id4ï¿½Ù¶È»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+    friction_wheel_3510_id5_speed_pid_init();//Ä¦ï¿½ï¿½ï¿½ï¿½id5ï¿½Ù¶È»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+    friction_wheel_3510_id6_speed_pid_init();//Ä¦ï¿½ï¿½ï¿½ï¿½id6ï¿½Ù¶È»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 
-    //²¦µ¯ÅÌµç»ú³õÊ¼»¯
-    shoot_2006_id3_speed_pid_init();//²¦µ¯ÅÌid3ËÙ¶È»·³õÊ¼»¯
+    //ï¿½ï¿½ï¿½ï¿½ï¿½Ìµï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
+    shoot_2006_id3_speed_pid_init();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½id3ï¿½Ù¶È»ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½
 
 
   /* USER CODE END 2 */

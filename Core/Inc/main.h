@@ -80,12 +80,12 @@ extern int16_t mouse_press_r ;
 
 
 
-extern int16_t rc_receive_state ;//Ò£¿ØÆ÷×´Ì¬ 0ÎªÀëÏß£¬1ÎªÔÚÏß
-extern uint32_t rc_receive_time ;//Ò£¿ØÆ÷½ÓÊÕµ½Êý¾ÝµÄÊ±¼ä´Á
+extern int16_t rc_receive_state ;//Ò£ï¿½ï¿½ï¿½ï¿½×´Ì¬ 0Îªï¿½ï¿½ï¿½ß£ï¿½1Îªï¿½ï¿½ï¿½ï¿½
+extern uint32_t rc_receive_time ;//Ò£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½Ýµï¿½Ê±ï¿½ï¿½ï¿½
 
 
 
-extern int16_t yaw_6020_state ;//6020×´Ì¬ 0Îª´íÎó£¬1ÎªÕý³£
+extern int16_t yaw_6020_state ;//6020×´Ì¬ 0Îªï¿½ï¿½ï¿½ï¿½1Îªï¿½ï¿½ï¿½ï¿½
 
 extern float gimbal_vx ;
 extern float gimbal_vy ;
@@ -207,7 +207,7 @@ extern float YAW_IMU_ABSCISSA ;
 extern float yaw_imu_preprocess ;
 
 
-extern uint8_t uart1_receive_data ;//´®¿Úµ±Ç°½ÓÊÕ×Ö½Ú
+extern uint8_t uart1_receive_data ;//ï¿½ï¿½ï¿½Úµï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½Ö½ï¿½
 
 /* USER CODE END EC */
 
